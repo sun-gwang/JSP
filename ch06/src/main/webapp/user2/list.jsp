@@ -11,13 +11,12 @@
 	String host = "jdbc:mysql://127.0.0.1:3306/studydb";
 	String user = "kc5353";
 	String pass = "abcd1234";
+	
 	List<User2DTO> users = new ArrayList<>();
 	try{
 		
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		
 		Connection conn = DriverManager.getConnection(host, user, pass);
-		
 		Statement stmt = conn.createStatement();
 		
 		ResultSet rs = stmt.executeQuery("SELECT * FROM `User2`");
@@ -26,17 +25,18 @@
 			User2DTO dto = new User2DTO();
 			dto.setUid(rs.getString(1));
 			dto.setName(rs.getString(2));
-			dto.setBirth(rs.getString(2));
+			dto.setBirth(rs.getString(3));
 			dto.setAddr(rs.getString(4));
-			users.add(dto);
 			
+			users.add(dto);
 		}
+		
 		rs.close();
 		stmt.close();
 		conn.close();
+		
 	}catch(Exception e){
 		e.printStackTrace();
-		
 	}
 
 
@@ -45,7 +45,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>User2 목록</title>
+		<title>User2 ::list</title>
 	</head>
 	<body>
 		<h3>User2 목록</h3>
@@ -67,7 +67,7 @@
 				<td><%= user2.getAddr() %></td>
 				<td>
 					<a href="./modify.jsp?uid=<%= user2.getUid() %>">수정</a>
-					<a href="#">삭제</a>
+					<a href="./delete.jsp?uid=<%= user2.getUid() %>">삭제</a>
 				</td>
 			</tr>
 			<%} %>
