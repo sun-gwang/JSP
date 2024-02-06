@@ -13,4 +13,16 @@ public class SQL {
 											+ "`hp`=?, "
 											+ "`rgip`=?, "
 											+ "`rdate`=NOW() ";
+	
+	public static final String SELECT_USER_FOR_LOGIN = "SELECT * FROM `USER` WHERE `uid`=? AND `pass`=SHA2(?,256) ";
+	
+	public static final String INSERT_ARTICLE = "INSERT INTO `article` SET "
+			                                  + "title=?, "
+			                                  + "content=?, "
+			                                  + "writer=?, "
+			                                  + "regip=?, "
+			                                  + "rdate=NOW() ";
+	
+	public static final String SELECT_ARTICLE = "SELECT * FROM `article` WHERE no=?";
+	public static final String SELECT_ARTICLES = "SELECT * FROM `article`";
 }

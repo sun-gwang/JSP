@@ -1,4 +1,9 @@
+<%@page import="kr.co.jboard1.dao.ArticleDAO"%>
+<%@page import="kr.co.jboard1.dto.ArticleDTO"%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	ArticleDTO article = ArticleDAO.getInstance().selectArticles();
+%>
 <%@ include file="./_header.jsp" %>
         <main>
             <section class="list">
@@ -12,6 +17,7 @@
                             <th>날짜</th>
                             <th>조회</th>
                         </tr>
+                        <%  %>
                         <tr>
                             <td>1</td>
                             <td><a href="#">테스트 제목입니다.</a>&nbsp;[3]</td>
@@ -19,6 +25,7 @@
                             <td>20-05-12</td>
                             <td>12</td>
                         </tr>
+                        <% %>
                     </table>
                 </article>
 
@@ -32,7 +39,7 @@
                 </div>
 
                 <!-- 글쓰기 버튼 -->
-                <a href="#" class="btnWrite">글쓰기</a>
+                <a href="/Jboard1/write.jsp" class="btnWrite">글쓰기</a>
             </section>
         </main>
 <%@ include file="./_footer.jsp" %>

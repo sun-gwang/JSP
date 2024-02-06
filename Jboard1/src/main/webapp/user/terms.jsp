@@ -1,38 +1,11 @@
-<%@page import="kr.co.jboard1.db.SQL"%>
-<%@page import="javax.sql.DataSource"%>
-<%@page import="javax.naming.InitialContext"%>
-<%@page import="javax.naming.Context"%>
 <%@page import="kr.co.jboard1.dto.TermsDTO"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.DriverManager"%>
+<%@page import="kr.co.jboard1.dao.UserDAO"%>
+
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	TermsDTO dto = null;
+	TermsDTO dto = UserDAO.getInstance().selectTerms();
 	
-	try {
-		Context initCtx = new InitialContext();
-		Context ctx = (Context) initCtx.lookup("java:comp/env");
-		DataSource ds = (DataSource) ctx.lookup("jdbc/jboard");
-		Connection conn = ds.getConnection();
-		
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery(SQL.SELECT_TERMS);
-		
-		if(rs.next()){
-			dto = new TermsDTO();
-			dto.setTerms(rs.getString(1));
-			dto.setPrivacy(rs.getString(2));
-		}
-		
-		rs.close();
-		stmt.close();
-		conn.close();
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
+	
 %>
 <%@ include file="./_header.jsp" %>
 <main>

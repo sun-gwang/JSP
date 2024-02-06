@@ -4,7 +4,8 @@
             <section class="write">
                 <h3>글쓰기</h3>
                 <article>
-                    <form action="#">
+                    <form action="/Jboard1/user/proc/writeProc.jsp" method="post">
+                    	<input type="hidden" name = "writer" value="<%= sessUser.getUid() %>">
                         <table>
                             <tr>
                                 <td>제목</td>
@@ -22,7 +23,7 @@
                             </tr>
                         </table>
                         <div>
-                            <a href="#" class="btnCancel">취소</a>
+                            <a href="/Jboard1/list.jsp" class="btnCancel">취소</a>
                             <input type="submit"  class="btnWrite" value="작성완료">
                         </div>
                     </form>

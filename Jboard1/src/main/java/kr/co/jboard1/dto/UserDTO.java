@@ -7,6 +7,15 @@ public class UserDTO {
 	private String nick;
 	private String email;
 	private String hp;
+	private String role;
+	private String zip;
+	private String addr1;
+	private String addr2;
+	private String rgip;
+	private String rdate;
+	private String leaveDate;
+	
+	
 	public String getUid() {
 		return uid;
 	}
@@ -43,11 +52,56 @@ public class UserDTO {
 	public void setHp(String hp) {
 		this.hp = hp;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public String getZip() {
+		return zip;
+	}
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+	public String getAddr1() {
+		return addr1;
+	}
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
+	}
+	public String getAddr2() {
+		return addr2;
+	}
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
+	}
+	public String getRgip() {
+		return rgip;
+	}
+	public void setRgip(String rgip) {
+		this.rgip = rgip;
+	}
+	public String getRdate() {
+		return rdate;
+	}
+	public void setRdate(String rdate) {
+		this.rdate = rdate;
+	}
+	public String getLeaveDate() {
+		return leaveDate;
+	}
+	public void setLeaveDate(String leaveDate) {
+		this.leaveDate = leaveDate;
+	}
 	@Override
 	public String toString() {
 		return "UserDTO [uid=" + uid + ", pass=" + pass + ", name=" + name + ", nick=" + nick + ", email=" + email
-				+ ", hp=" + hp + "]";
+				+ ", hp=" + hp + ", role=" + role + ", zip=" + zip + ", addr1=" + addr1 + ", addr2=" + addr2 + ", rgip="
+				+ rgip + ", rdate=" + rdate + ", leaveDate=" + leaveDate + "]";
 	}
+	
+	
 
 	
 	
