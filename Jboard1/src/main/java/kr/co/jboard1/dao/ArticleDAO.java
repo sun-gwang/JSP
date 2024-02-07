@@ -35,47 +35,68 @@ public class ArticleDAO extends DBHelper{
 		}
 	}
 	
-	public ArticleDTO selectArticle(int no) {
+	public ArticleDTO selectArticle(String no) {
+		ArticleDTO article = null;
 		
 		try {
 			conn = getConnection();
 			psmt = conn.prepareStatement(SQL.SELECT_ARTICLE);
-			psmt.setInt(1, no);
+			psmt.setString(1, no);
 			
+			System.out.println(psmt);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				article = new ArticleDTO();
+				article.setNo(rs.getInt(1));
+				article.setParent(rs.getInt(2));
+				article.setComent(rs.getInt(3));
+				article.setCate(rs.getString(4));
+				article.setTitle(rs.getString(5));
+				article.setContent(rs.getString(6));
+				article.setFile(rs.getInt(7));
+				article.setHit(rs.getInt(8));
+				article.setWriter(rs.getString(9));
+				article.setRegip(rs.getString(10));
+				article.setRdate(rs.getString(11));
+				
+			}
+			
+			closeALL();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return article;
 	}
 	
-	public List<ArticleDTO> selectArticles() {
+	public List<ArticleDTO> selectArticles(int start) {
 			
 		
 		List<ArticleDTO> articles = new ArrayList<>();
 		try {
 			
-			ArticleDTO dto = null;
+			ArticleDTO article = null;
 			conn = getConnection();
-			stmt = conn.createStatement();
-			
-			rs = stmt.executeQuery(SQL.SELECT_ARTICLES);
+			psmt = conn.prepareStatement(SQL.SELECT_ARTICLES);
+			psmt.setInt(1, start);
+			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
-				dto = new ArticleDTO();
-				dto.setNo(rs.getInt(1));
-				dto.setParent(rs.getInt(2));
-				dto.setComent(rs.getInt(3));
-				dto.setCate(rs.getString(4));
-				dto.setTitle(rs.getString(5));
-				dto.setContent(rs.getString(6));
-				dto.setFile(rs.getInt(7));
-				dto.setHit(rs.getInt(8));
-				dto.setWriter(rs.getString(9));
-				dto.setRegip(rs.getString(10));
-				dto.setRdate(rs.getString(11));
-				articles.add(dto);
+				article = new ArticleDTO();
+				article.setNo(rs.getInt(1));
+				article.setParent(rs.getInt(2));
+				article.setComent(rs.getInt(3));
+				article.setCate(rs.getString(4));
+				article.setTitle(rs.getString(5));
+				article.setContent(rs.getString(6));
+				article.setFile(rs.getInt(7));
+				article.setHit(rs.getInt(8));
+				article.setWriter(rs.getString(9));
+				article.setRegip(rs.getString(10));
+				article.setRdate(rs.getString(11));
+				article.setNick(rs.getString(12));
+				articles.add(article);
 			}
 			
 			closeALL();
@@ -90,4 +111,39 @@ public class ArticleDAO extends DBHelper{
 	
 	public void deleteArticle(int no) {}
 	
+	// 사용자 정의 CRUD  메서드
+	public int selectCountTotal() {
+		int total = 0;
+		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(SQL.SELECT_COUNT_TOTAL);
+			
+			if(rs.next()) {
+				total=rs.getInt(1);
+			}
+			
+			closeALL();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+	
+	public void updateHitCount(String no) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_HIT_COUNT);
+			psmt.setString(1, no);
+			System.out.println(psmt);
+			psmt.executeUpdate();
+			
+			closeALL();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

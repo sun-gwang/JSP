@@ -12,6 +12,17 @@ public class ArticleDTO {
 	private String writer;
 	private String regip;
 	private String rdate;
+	
+	// 추가 필드
+	private String Nick;
+	
+	
+	public String getNick() {
+		return Nick;
+	}
+	public void setNick(String nick) {
+		Nick = nick;
+	}
 	public int getNo() {
 		return no;
 	}
@@ -70,6 +81,7 @@ public class ArticleDTO {
 	public String getRdate() {
 		return rdate;
 	}
+
 	public void setRdate(String rdate) {
 		this.rdate = rdate;
 	}
