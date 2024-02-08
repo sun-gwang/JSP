@@ -4,7 +4,7 @@
             <section class="write">
                 <h3>글쓰기</h3>
                 <article>
-                    <form action="/Jboard1/user/proc/writeProc.jsp" method="post">
+                    <form action="/Jboard1/proc/writeProc.jsp" method="post">
                     	<input type="hidden" name = "writer" value="<%= sessUser.getUid() %>">
                         <table>
                             <tr>
