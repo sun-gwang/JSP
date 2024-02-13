@@ -14,7 +14,7 @@ public class UserDTO {
 	private String rgip;
 	private String rdate;
 	private String leaveDate;
-	
+	private String sms;
 	
 	public String getUid() {
 		return uid;
@@ -99,6 +99,12 @@ public class UserDTO {
 		return "UserDTO [uid=" + uid + ", pass=" + pass + ", name=" + name + ", nick=" + nick + ", email=" + email
 				+ ", hp=" + hp + ", role=" + role + ", zip=" + zip + ", addr1=" + addr1 + ", addr2=" + addr2 + ", rgip="
 				+ rgip + ", rdate=" + rdate + ", leaveDate=" + leaveDate + "]";
+	}
+	public String getSms() {
+		return sms;
+	}
+	public void setSms(String sms) {
+		this.sms = sms;
 	}
 	
 	

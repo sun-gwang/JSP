@@ -18,6 +18,7 @@
 	String nick = request.getParameter("nick");
 	String email = request.getParameter("email");
 	String hp = request.getParameter("hp");
+	String sms = request.getParameter("sms");
 	String rgip = request.getRemoteAddr();
 	
 	// 회원 객체 생성
@@ -29,6 +30,7 @@
 	user.setEmail(email);
 	user.setHp(hp);
 	user.setRgip(rgip);
+	user.setSms(sms);
 	
 	// 회원 등록
 	UserDAO.getInstance().insertUser(user);

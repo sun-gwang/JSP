@@ -12,6 +12,7 @@ public class SQL {
 											+ "`email`=?, "
 											+ "`hp`=?, "
 											+ "`rgip`=?, "
+											+ "`sms`=?,"
 											+ "`rdate`=NOW() ";
 	
 	public static final String SELECT_USER_FOR_LOGIN = "SELECT * FROM `USER` WHERE `uid`=? AND `pass`=SHA2(?,256) ";
@@ -47,8 +48,9 @@ public class SQL {
 											  + "`writer`=?,"
 											  + "`regip`=?,"
 											  + "`rdate`=NOW()";
-	
+	public static final String UPDATE_ARTICLE = "UPDATE `Article` SET `title`=?, `content`=? WHERE `no`=?";
 	public static final String UPDATE_HIT_COUNT = "UPDATE `Article` SET `hit`=`hit` +1 WHERE `no`=?";
+	public static final String UPDATE_COMMENT = "UPDATE `Article` SET `content`=? WHERE `no`=?";
 	public static final String UPDATE_COMMENT_PLUS  = "UPDATE `Article` SET `coment` = `coment` +1 WHERE `no`=?";
 	public static final String UPDATE_COMMENT_MINUS = "UPDATE `Article` SET `coment` = `coment` -1 WHERE `no`=?";
 	public static final String DELETE_ARTICLE = "DELETE FROM `Article` WHERE `no`=? OR `parent`=?";
