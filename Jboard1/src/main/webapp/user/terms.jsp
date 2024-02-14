@@ -4,7 +4,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	TermsDTO dto = UserDAO.getInstance().selectTerms();
-	
 %>
 
 <%@ include file="./_header.jsp" %>

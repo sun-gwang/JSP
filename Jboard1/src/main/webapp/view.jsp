@@ -4,7 +4,10 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-	String no = request.getParameter("no");
+
+	String no         = request.getParameter("no");
+	String searchType = request.getParameter("searchType");
+	String keyword    = request.getParameter("keyword");
 
 	ArticleDAO dao = ArticleDAO.getInstance();
 	
@@ -17,6 +20,12 @@
 	// 댓글 조회
 	List<ArticleDTO> comments = dao.selectComments(no);	
 	
+	String params = "";
+	
+	if(searchType != null && keyword != null){
+		// 동적 파라미터 생성
+		params = "?searchType="+searchType+"&keyword="+keyword;
+	}	
 %>
 <%@ include file="./_header.jsp" %>
 <script>	
@@ -146,7 +155,7 @@
             <a href="/Jboard1/modify.jsp?no=<%= article.getNo() %>" class="btnModify">수정</a>
             <% } %>
             
-            <a href="/Jboard1/list.jsp" class="btnList">목록</a>
+            <a href="/Jboard1/list.jsp<%=params%>" class="btnList">목록</a>
         </div>  
         
         <!-- 댓글리스트 -->
