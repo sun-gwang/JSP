@@ -1,24 +1,26 @@
 <%@page import="com.google.gson.Gson"%>
+<%@page import="java.awt.Polygon"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dto.User2DTO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
-<%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="javax.sql.DataSource"%>
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="javax.naming.Context"%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 
-	List<User2DTO> user2list = new ArrayList<>();
-
+	
+	User2DTO dto = null;
+	List<User2DTO> user2 = new ArrayList<>();
 	try{
-		// 1단계 JNDI 서비스 객체 생성
-		Context ctx = (Context) new InitialContext().lookup("java:comp/env");
 		
-		// 2단계 커넥션풀 객체 생성
+		// 1단계 JNDI 서비스 객체 생성 
+		Context ctx = (Context) new InitialContext().lookup("java:comp/env");		
+		
+		// 2단계 커넥션풀 객체 생성 
 		DataSource ds = (DataSource) ctx.lookup("jdbc/studydb");
 		Connection conn = ds.getConnection();
 		
@@ -28,14 +30,13 @@
 		
 		while(rs.next()){
 			
-			User2DTO user2 = new User2DTO();
+			dto = new User2DTO();
+			dto.setUid(rs.getString(1));
+			dto.setName(rs.getString(2));
+			dto.setBirth(rs.getString(3));
+			dto.setAddr(rs.getString(4));
 			
-			user2.setUid(rs.getString(1));
-			user2.setName(rs.getString(2));
-			user2.setBirth(rs.getString(3));
-			user2.setAddr(rs.getString(4));
-			
-			user2list.add(user2);
+			user2.add(dto);
 		}
 		
 		rs.close();
@@ -46,8 +47,10 @@
 		e.printStackTrace();
 	}
 	
-	// JSON 출력
+	// Json 출력
 	Gson gson = new Gson();
-	String strJson = gson.toJson(user2list);
+	String strJson = gson.toJson(user2);
 	out.print(strJson);
+	
 %>
+

@@ -10,7 +10,7 @@
 				
 				// 문서객체 만들기
 				const table = document.getElementsByTagName('table')[0];
-				fetch('./proc/getUser2list.jsp')
+				fetch('./proc/getUser2List.jsp')
 				.then(response => response.json())
 				.then((data)=>{
 					
@@ -24,20 +24,50 @@
 						const td3 = document.createElement('td');
 						const td4 = document.createElement('td');
 						const td5 = document.createElement('td');
-						
+
 						const a1 = document.createElement('a');
 						const a2 = document.createElement('a');
+						
 						a1.href = './modify.jsp?uid='+user.uid;
 						a1.innerText = '수정';
+						
 						a2.href = './delete.jsp?uid='+user.uid;
-						a1.innerText = '삭제';
+						a2.innerText = '삭제';
+						
 						td1.innerText = user.uid;
 						td2.innerText = user.name;
 						td3.innerText = user.birth;
 						td4.innerText = user.addr;
+						
+						a2.onclick = function (e) {
+							
+							e.preventDefault();
+							
+							fetch('./proc/deleteUser2.jsp?uid=')
+							.then(response=>response.json())
+							.then((data)=>{
+								console.log(data);
+							})
+							.catch((err)=>{
+								console.log(err);
+							});
+						}
+						
+						td5.appendChild(a1);
+						td5.appendChild(a2);
+						
+						tr.appendChild(td1);
+						tr.appendChild(td2);
+						tr.appendChild(td3);
+						tr.appendChild(td4);
+						tr.appendChild(td5);
+						
+						table.appendChild(tr);
 					}
 				})
-				.catch()
+				.catch((err)=>{
+					console.log(err);
+				});
 			}
 		
 		</script>
