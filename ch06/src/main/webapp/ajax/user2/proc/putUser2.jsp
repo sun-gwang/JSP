@@ -1,31 +1,38 @@
 <%@page import="com.google.gson.JsonObject"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="javax.naming.Context"%>
 <%@page import="javax.sql.DataSource"%>
-<%@page import="org.apache.catalina.realm.DataSourceRealm"%>
+<%@page import="javax.naming.Context"%>
 <%@page import="javax.naming.InitialContext"%>
 <%@ page contentType="application/json;charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("UTF-8");
+
 	String uid = request.getParameter("uid");
+	String name = request.getParameter("name");
+	String birth = request.getParameter("birth");
+	String addr = request.getParameter("addr");
 	
-	int result = 0;
+	System.out.println("uid : " + uid);
+	
+	int result =0;
 	
 	try{
-		
-		// 1단계
-		Context ctx = (Context) new InitialContext().lookup("java:comp/env");
-		
-		// 2단계
+		// 1단계 JNDI 서비스 객체 생성
+		Context ctx = (Context) new InitialContext().lookup("java:comp/env"); 
+				
+		// 2단계 커넥션풀 객체 생성
 		DataSource ds = (DataSource) ctx.lookup("jdbc/studydb");
 		Connection conn = ds.getConnection();
 		
-		PreparedStatement psmt = conn.prepareStatement("DELETE FROM `user2` WHERE `uid`=?");
-		psmt.setString(1, uid);
+		PreparedStatement psmt = conn.prepareStatement("UPDATE `user2` SET `name`=?, `birth`=?, `addr`=? WHERE `uid`=?");
+		
+		psmt.setString(1, name);
+		psmt.setString(2, birth);
+		psmt.setString(3, addr);
+		psmt.setString(4, uid);
 		
 		result = psmt.executeUpdate();
-		
 		psmt.close();
 		conn.close();
 		
@@ -33,7 +40,7 @@
 		e.printStackTrace();
 	}
 	
-	// Json 출력
+	// JSON 출력
 	JsonObject json = new JsonObject();
 	json.addProperty("result", result);
 	out.print(json.toString());

@@ -5,60 +5,61 @@
 		<meta charset="UTF-8">
 		<title>ajax::user2</title>
 		<script>
+			
 			window.onload = function(){
-				
-				// 문서객체 생성
+					
+				// 사용자 등록
 				const btnSubmit = document.getElementsByName('submit')[0];
 				const formUser2 = document.getElementsByTagName('form')[0];
-				
-				btnSubmit.onclick = (e) =>{
-					e.preventDefualt();
-					
-					const uid   = formUser2.uid.value;
-					const name  = formUser2.name.value;
-					const birth = formUser2.birth.value;
-					const addr  = formUser2.addr.value;
-					
-					// JSON 생성
-					const jsonData = {
-						"uid" : uid,
-						"name" : name,
-						"birth" : birth,
-						"addr" : addr
-					};
-					
-					// Json문자열 반환
-					const strJson = JSON.stringify(jsonData);
-					console.log('strJson : '+strJson);
-					
-					
-					// 서버 전송
-					fetch('proc/postUser2.jsp', {
-						method: 'POST',
-						header: {
-							"Content-Type": "application/json",
-						},
-						body: strJson
-					})
-					.then(response=>response.json())
-					.then(data=>{
-						console.log(data);
-						
-						if(data.result > 0){
-							alert('등록 성공!');
-							
-							// 목록으로 이동
-							location.href = './list.jsp';
-						}else{
-							alert('등록 실패!!!');
-						}
-					})
-					.catch((err)=>{
-						console.log(err);
-					});
-					
-				}
-				
+		 		
+		 		btnSubmit.onclick = (e) => {
+		 			e.preventDefault();
+		 			
+		 			const uid 	= formUser2.uid.value;
+		 			const name 	= formUser2.name.value;
+		 			const birth = formUser2.birth.value;
+		 			const addr 	= formUser2.addr.value;
+		 			
+		 			// JSON 생성
+		 			const jsonData = {
+		 				"uid"   : uid,
+		 				"name"  : name,
+		 				"birth" : birth,
+		 				"addr"  : addr		 				
+		 			};
+		 			
+		 			// JSON 문자열 변환
+		 			const strJson = JSON.stringify(jsonData);
+		 			console.log('strJson : ' + strJson);
+		 			
+		 			// 서버 전송
+		 			fetch('./proc/postUser2.jsp', {
+			 				method: 'POST',
+			 				headers: {
+			 					"Content-Type": "application/json",
+			 				},
+			 				body: strJson
+		 				})
+			 			.then(response => response.json())
+			 			.then((data) => {
+			 				console.log(data);
+			 				
+			 				if(data.result > 0){
+			 					
+			 					alert('등록 성공!');
+			 					
+			 					// 목록 이동
+			 					location.href = './list.jsp';
+			 					
+			 				}else{
+			 					alert('등록 실패!');
+			 				}
+			 				
+			 			})
+			 			.catch((err) => {
+			 				console.log(err);
+			 			});
+		 		}
 			}
 		</script>
 	</head>

@@ -31,10 +31,10 @@
 		 			
 		 			const jsonData = {
 		 					
-		 				"uid"  :uid,		
-		 				"name" :name,		
-		 				"birth":birth,		
-		 				"hp"   :hp,
+		 				"uid"  : uid,		
+		 				"name" : name,		
+		 				"birth": birth,		
+		 				"hp"   : hp,
 		 				"age"  : age
 		 			};
 		 			

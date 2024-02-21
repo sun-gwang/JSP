@@ -43,10 +43,24 @@
 							
 							e.preventDefault();
 							
-							fetch('./proc/deleteUser2.jsp?uid=')
+							const parent = e.target.closest('tr');
+							const url = this.href;
+							const params = url.split('?')[1];
+							const value  = params.split('=')[1];
+							
+							console.log(value);
+							
+							fetch('./proc/deleteUser2.jsp?uid='+value)
 							.then(response=>response.json())
 							.then((data)=>{
 								console.log(data);
+								
+								if(data.result > 0){
+									alert('삭제 완료');
+									
+									// 태그 동적 삭제
+									parent.remove();
+								}
 							})
 							.catch((err)=>{
 								console.log(err);
