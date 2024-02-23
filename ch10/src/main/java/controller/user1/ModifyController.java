@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.User1DAO;
 import dto.User1DTO;
 import service.User1Service;
 
@@ -29,7 +30,6 @@ public class ModifyController extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		String uid = req.getParameter("uid");
-		
 		// 수정 데이터 조회
 		User1DTO user = service.selectUser1(uid);
 		
