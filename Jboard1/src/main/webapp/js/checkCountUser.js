@@ -1,4 +1,4 @@
-// 유효성 검사에 사용할 변수
+// 유효성 검사에 사용할 상태변수
 let isUidOk   = false;
 let isPassOk  = false;
 let isNameOk  = false;
