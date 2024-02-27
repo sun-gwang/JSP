@@ -41,6 +41,10 @@ public class UserService {
 	public List<UserDTO> selectUsers() {
 		return dao.selectUsers(); 
 	}
+	
+	public UserDTO selectUserForLogin(String uid, String pass) {
+		return dao.selectUserForLogin(uid, pass);
+	}
 	public void updatetUser(UserDTO userDTO) {
 		dao.updatetUser(userDTO);
 	}
@@ -53,11 +57,11 @@ public class UserService {
 	public void sendEmailCode(HttpSession session, String receiver) {
 		
 		// 인증코드 생성
-		int code = ThreadLocalRandom.current().nextInt(100000, 100000);
+		int code = ThreadLocalRandom.current().nextInt(100000, 1000000);
 		session.setAttribute("code", code); 
 		
 		// 이메일 기본정보
-		String sender = "kkj89011@gmail.com";
+		String sender = "kkj80911@gmail.com";
 		String password = "qmnl fcqz qywd hivi"; // 앱 비밀번호
 		String title   = "jboard 인증코드 입니다.";
 		String content = "<h1>인증코드는 " + code + "입니다.</h1>";
@@ -100,8 +104,7 @@ public class UserService {
 	
 	public int confirmEmailCode(HttpSession session, String code) {
 		
-		String sessCode = (String) session.getAttribute("code");
-		
+		String sessCode = String.valueOf(session.getAttribute("code")) ;
 		
 		if(sessCode.equals(code)) {
 			// 성공
@@ -109,6 +112,6 @@ public class UserService {
 		}else {
 			// 실패
 			return 0;
-		}
+		}		
 	}
 }

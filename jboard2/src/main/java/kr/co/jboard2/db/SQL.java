@@ -20,6 +20,7 @@ public class SQL {
 	public static final String INSERT_ARTICLE = "INSERT INTO `article` SET "
 			                                  + "title=?, "
 			                                  + "content=?, "
+			                                  + "file=?, "
 			                                  + "writer=?, "
 			                                  + "regip=?, "
 			                                  + "rdate=NOW() ";
@@ -45,7 +46,9 @@ public class SQL {
 	
 	public static final String SELECT_ARTICLES_ORDER_LIMIT = "ORDER BY `no` DESC LIMIT ?, 10";
       
-	public static final String SELECT_ARTICLE = "SELECT * FROM `article` WHERE no=?";
+	public static final String SELECT_ARTICLE = "SELECT * FROM `article` WHERE `no`=?";
+	
+	public static final String SELECT_FILE    = "SELECT * FROM `file` WHERE `fno`=?";
 	
 	public static final String SELECT_COMMENTS = "SELECT a.*, b.nick FROM `Article` AS a "
 											   + "JOIN `User` AS b ON a.writer = b.uid "
@@ -58,7 +61,12 @@ public class SQL {
 											  + "`writer`=?,"
 											  + "`regip`=?,"
 											  + "`rdate`=NOW()";
-	
+	public static final String INSERT_FILE = "INSERT INTO `file` SET "
+			      								+ "`ano`=?, "
+			      								+ "`oName`=?, "
+			      								+ "`sName`=?, "
+			      								+ "`rdate`=NOW()";
+			
 	public static final String UPDATE_ARTICLE = "UPDATE `Article` SET `title`=?, `content`=? WHERE `no`=?";
 	public static final String UPDATE_HIT_COUNT = "UPDATE `Article` SET `hit`=`hit` +1 WHERE `no`=?";
 	public static final String UPDATE_COMMENT = "UPDATE `Article` SET `content`=? WHERE `no`=?";

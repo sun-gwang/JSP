@@ -3,8 +3,6 @@ package kr.co.jboard2.controller.user;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -20,16 +18,16 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import kr.co.jboard2.dao.UserDAO;
 import kr.co.jboard2.service.UserService;
 
 @WebServlet("/user/checkUser.do")
-
 public class CheckUserController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	private UserService service = UserService.getInstance();
+	
 	@Override
 	public void init() throws ServletException {
 
@@ -38,7 +36,7 @@ public class CheckUserController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		String type = req.getParameter("type");
+		String type  = req.getParameter("type");
 		String value = req.getParameter("value");
 		logger.debug("type : " + type);
 		logger.debug("value : " + value);
@@ -65,32 +63,35 @@ public class CheckUserController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		// AJAX POST 데이터 수신처리
-		BufferedReader reader = req.getReader();
-		StringBuilder requestBody = new StringBuilder();	
-		String line;
+		/*
+		 * 이메일 전송 코드 일치여부 확인
+		 */
 		
+		// AJAX POST 데이터 스트림 수신 처리
+		BufferedReader reader = req.getReader();
+		StringBuilder requestBody = new StringBuilder();
+		String line;
 		while((line = reader.readLine()) != null){
 			requestBody.append(line);
 		}
 		reader.close();
-	
-	// JSON 파싱
-	Gson gson = new Gson();
-	Properties props = gson.fromJson(requestBody.toString(), Properties.class);
-	logger.debug("props : " + props);
-	
-	// 인증코드 일치여부 확인
-	HttpSession session = req.getSession();
-	String code = props.getProperty("code");
-	int result = service.confirmEmailCode(session, code);
-	
-	// JSON 생성
-	JsonObject json = new JsonObject();
-	json.addProperty("result", result);
-			
-	// JSON 출력
-	PrintWriter writer = resp.getWriter();
-	writer.print(json);
+		
+		//JSON 파싱
+		Gson gson = new Gson();
+		Properties props = gson.fromJson(requestBody.toString(), Properties.class);
+		logger.debug("props : " + props);
+		
+		// 인증코드 일치여부 확인
+		HttpSession session = req.getSession();
+		String code = props.getProperty("code");
+		int result = service.confirmEmailCode(session, code);
+		
+		// JSON 생성
+		JsonObject json = new JsonObject();
+		json.addProperty("result", result);
+		
+		// JSOJ 출력
+		PrintWriter writer = resp.getWriter();
+		writer.print(json);
 	}
 }

@@ -107,7 +107,7 @@
 				isNameOk = false;
 			}else{
 				resultName.innerText = ' ';
-				isNameOk = false;
+				isNameOk = true;
 			}
 			
 			
@@ -184,31 +184,30 @@
 			
 		}
 		
-		// 이메일 인증코드 전송버튼 클릭
+		// 이메일 인증코드 전송 버튼 클릭
 		btnAuthEmail.onclick = function(){
 			
 			const value = form.auth.value;
 			
-			fetch('/jboard2/user/checkUser.do',{
-				method:'POST',
-				body: JSON.stringify({"code": value})
+			fetch('/jboard2/user/checkUser.do', {
+				method: 'POST',
+				body: JSON.stringify({"code": value}) 
 			})
 			.then((response) => response.json())
 			.then((data)=>{
 				console.log(data);
 				
-				
-				if(data.result > 0){
+				if(data.result > 0){					
 					fieldAuth.style.display = 'none';
-					resultEmail.innerText = '이메일이 인증 되었습니다';
+					resultEmail.innerText = '이메일이 인증 되었습니다.';
 					resultEmail.style.color = 'green';
 					isEmailOk = true;
 				}else{
-					// 인증코드 입력필드 활성화
-					resultEmail.innerText = '이메일 인증코드가 일치하지 않습니다.'
+					resultEmail.innerText = '이메일이 인증코드가 일치 않습니다.';
 					resultEmail.style.color = 'red';
 					isEmailOk = false;
 				}
+				
 			}).catch((err)=>{
 				console.log(err);
 			});
@@ -275,6 +274,8 @@
 				alert('휴대폰이 유효하지 않습니다.');
 				return false; //폼 전송 취소
 			}
+			
+			return true;
 			
 		}
 		

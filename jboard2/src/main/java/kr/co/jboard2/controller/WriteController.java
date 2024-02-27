@@ -1,6 +1,7 @@
 package kr.co.jboard2.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,12 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import kr.co.jboard2.dto.ArticleDTO;
+import kr.co.jboard2.dto.FileDTO;
+import kr.co.jboard2.service.ArticleService;
+import kr.co.jboard2.service.FileService;
+
 @WebServlet("/write.do")
 public class WriteController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+	private ArticleService service = ArticleService.getInstance();
+	private FileService fileService = FileService.getInstance();
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
@@ -32,14 +39,31 @@ public class WriteController extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+
+		String regip = req.getRemoteAddr();
+		
+		// 파일 업로드
+		ArticleDTO articleDTO = service.fileUpload(req);
+		articleDTO.setRegip(regip);
+	
+		logger.debug(" "+ articleDTO);
+		
+		req.setAttribute("articles", articleDTO);
+		
+		// 글 등록
+		int pk = service.insertArticle(articleDTO);
+		
+		// 파일 등록
+		List<FileDTO> files = articleDTO.getFileDTOs();
+		
+		for(FileDTO fileDTO : files) {
+			
+			fileDTO.setAno(pk);
+			fileService.insertFile(fileDTO);
+		}
+		
+		resp.sendRedirect("/jboard2/list.do");
 	}
 	
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		super.destroy();
-	}
 
 }

@@ -101,12 +101,12 @@ function postcode() {
                 <tr>
                     <td>이메일</td>
                     <td>
-                        <input type="email" name="email" id="btnSendEmail" placeholder="이메일 입력"/>
+                        <input type="email" name="email" placeholder="이메일 입력"/>
                         <button type="button" id="btnSendEmail"><img src="../img/chk_auth.gif" alt="인증번호 받기"/></button>
                         <span class="resultEmail"></span>
                         <div class="auth">
                             <input type="text" name="auth" placeholder="인증번호 입력"/>
-                            <button type="button" id="btnAuthEmail" ><img src="../img/chk_confirm.gif" alt="확인"/></button>
+                            <button type="button" id="btnAuthEmail"><img src="../img/chk_confirm.gif" alt="확인"/></button>
                         </div>
                     </td>
                 </tr>
@@ -130,7 +130,7 @@ function postcode() {
             </table>
 
             <div>
-                <a href="./login.html" class="btn btnCancel">취소</a>
+                <a href="/jboard2/user/login.do" class="btn btnCancel">취소</a>
                 <input type="submit" value="회원가입" class="btn btnRegister"/>
             </div>
 

@@ -12,12 +12,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import kr.co.jboard2.dto.ArticleDTO;
+import kr.co.jboard2.dto.FileDTO;
+import kr.co.jboard2.service.ArticleService;
+import kr.co.jboard2.service.FileService;
+
 @WebServlet("/view.do")
 public class ViewController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+	private ArticleService service = ArticleService.getInstance();
+	private FileService fileService = FileService.getInstance();
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
@@ -26,6 +32,16 @@ public class ViewController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+		int no = Integer.parseInt(req.getParameter("no"));
+		ArticleDTO articleDTO = new ArticleDTO();
+		FileDTO fileDTO = new FileDTO();
+		
+		articleDTO = service.selectArticle(no);
+		fileDTO = fileService.selectFile(no);
+		
+		req.setAttribute("article", articleDTO);
+		req.setAttribute("file", fileDTO);
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/view.jsp");
 		dispatcher.forward(req, resp);
 	}
