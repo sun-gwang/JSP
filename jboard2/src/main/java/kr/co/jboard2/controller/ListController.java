@@ -30,8 +30,37 @@ public class ListController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		// 데이터 수신
+		String pg = req.getParameter("pg");
+		
+		// 현재 페이지 번호
+		int currentPage = service.getCurrentPage(pg);
+		
+		// 전체 게시물 갯수
+		int total = service.selectCountTotal();
+		
+		// 마지막 페이지 번호
+		int lastPageNum = service.getLastPageNum(total);
+		
+		// 페이지 그룹 (start, end 번호)
+		int[] result = service.getPageGroupNum(currentPage, lastPageNum);
+		
+		// 페이지 시작번호
+		int pageStartNum = service.getPageStartNum(total, currentPage);
+		
+		// 시작 인덱스
+		int start = service.getStartNum(currentPage);
+		
+		// 글 조회
 		List<ArticleDTO> articles = service.selectArticles();
 		req.setAttribute("articles", articles);
+		
+		// view 공유 참조
+		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("lastPageNum", lastPageNum);
+		req.setAttribute("pageGroupStart", result[0]);
+		req.setAttribute("pageGroupEnd", result[1]);
+		req.setAttribute("pageStartNum", pageStartNum+1);
 		
 		RequestDispatcher dispathcer = req.getRequestDispatcher("/list.jsp");
 		dispathcer.forward(req, resp);

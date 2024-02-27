@@ -128,6 +128,26 @@ public class ArticleDAO extends DBHelper{
 		return articles;
 	}
 	
+	public int selectCountTotal() {
+		int total = 0;
+		
+		try {
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_COUNT_TOTAL);
+			rs   = psmt.executeQuery();
+			
+			if(rs.next()) {
+				total = rs.getInt(1);
+			}
+			
+			closeALL();
+		} catch (Exception e) {
+			logger.error("selectCountTotal() " + e.getMessage());
+		}
+		return total;
+	}
+	
 	public void updateArticles(ArticleDTO articleDTO) {}
 	public void deleteArticles(int no) {}
 }
