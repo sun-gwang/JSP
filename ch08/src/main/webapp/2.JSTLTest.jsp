@@ -72,7 +72,8 @@
 		<%-- 변수 선언 --%>
 		<c:set var="str" value="hello"></c:set>
 		<p>str : ${str}</p>
-		
+		<c:set var="str" value="hello"></c:set>
+		<p>str : ${str}</p>
 		<c:set var="num1" value="1"/>
 		<c:set var="num2" value="2"/>
 		<c:set var="num3" value="3"/>
