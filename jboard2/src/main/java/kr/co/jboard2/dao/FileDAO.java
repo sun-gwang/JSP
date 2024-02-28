@@ -33,21 +33,35 @@ public class FileDAO extends DBHelper{
 			logger.error("insertFile : " + e.getMessage());
 		}
 	}
+	
 	public FileDTO selectFile(int fno) {
 		
 		FileDTO fileDTO = null;
 		try {
 			conn = getConnection();
+			conn.setAutoCommit(false);
+			
 			psmt = conn.prepareStatement(SQL.SELECT_FILE);
 			psmt.setInt(1, fno);
+			logger.info("selectFile : "+ psmt);
+			
+			psmtEtc1 = conn.prepareStatement(SQL.UPDATE_FILE_DOWNLOAD);
+			psmtEtc1.setInt(1, fno);
+			logger.info("selectFile : "+ psmtEtc1);
+			
+			rs = psmt.executeQuery();
+			psmtEtc1.executeUpdate();
+			
+			conn.commit();
 			
 			if(rs.next()) {
 				fileDTO = new FileDTO();
 				fileDTO.setFno(rs.getInt(1));
 				fileDTO.setAno(rs.getInt(2));
 				fileDTO.setoName(rs.getString(3));
-				fileDTO.setDownload(rs.getInt(4));
-				fileDTO.setRdate(rs.getString(5));
+				fileDTO.setsName(rs.getString(4));
+				fileDTO.setDownload(rs.getInt(5));
+				fileDTO.setRdate(rs.getString(6));
 				
 			}
 			closeALL();
@@ -65,7 +79,52 @@ public class FileDAO extends DBHelper{
 		
 	}
 	
-	public void deleteFile(int no) {
+	public void deleteArticleFile(int ano) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_FILE_ARTICLE);
+			logger.info("deleteFile()" + psmt);
+			psmt.setInt(1, ano);
+			
+			psmt.executeUpdate();
+			
+			closeALL();
+		} catch (Exception e) {
+			logger.error("deleteFile" + e.getMessage());
+		}
+	}
+	
+	public int deleteFile(String fno) {
 		
+		int ano = 0;
+		
+		try {
+			
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			psmtEtc1 = conn.prepareStatement(SQL.SELECT_FILE_FOR_ANO);
+			psmtEtc1.setString(1, fno);
+			logger.info("deleteFile : " + psmtEtc1);
+			
+			psmt = conn.prepareStatement(SQL.DELETE_FILE);
+			psmt.setString(1, fno);
+			logger.info("deleteFile : " + psmt);
+			
+			rs = psmtEtc1.executeQuery();
+			psmt.executeUpdate();
+			conn.commit();
+			
+			if(rs.next()) {
+				ano = rs.getInt(1);
+			}
+			
+			closeALL();
+		} catch (Exception e) {
+			
+			logger.error("deleteFile : "+ e.getMessage());
+		}
+		
+		return ano;
 	}
 }

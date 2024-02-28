@@ -1,12 +1,17 @@
 package kr.co.jboard2.service;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -27,8 +32,8 @@ public class ArticleService {
 	}
 	private ArticleService() {}
 	private ArticleDAO dao = ArticleDAO.getInstance();
-	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	
 	
 	public int insertArticle(ArticleDTO articleDTO) {
@@ -37,17 +42,26 @@ public class ArticleService {
 	public ArticleDTO selectArticle (int no) {
 		return dao.selectArticle(no);
 		}
-	public List<ArticleDTO> selectArticles() {
-		return dao.selectArticles();
-		}
+	
+	public List<ArticleDTO> selectArticles(int start) {
+		return dao.selectArticles(start);
+	}
+	
 	public int selectCountTotal() {
 		return dao.selectCountTotal();
 	}
-	public void updateArticles(ArticleDTO articleDTO) {
-		dao.updateArticles(articleDTO);
+	public void updateArticle(ArticleDTO articleDTO) {
+		dao.updateArticle(articleDTO);
 	}
-	public void deleteArticles(int no) {
-		dao.deleteArticles(no);
+	public void updateHitCount(int no) {
+		dao.updateHitCount(no);
+	}
+	
+	public void updateArticleForFileCount(int ano) {
+		dao.updateArticleForFileCount(ano);
+	}
+	public void deleteArticle(int no) {
+		dao.deleteArticle(no);
 	}
 	
 	public ArticleDTO fileUpload(HttpServletRequest req) {
@@ -127,8 +141,40 @@ public class ArticleService {
 		return articleDTO;
 	}
 	
-	public void fileDownload() {
+	public void fileDownload(HttpServletRequest req, HttpServletResponse resp, FileDTO fileDTO) {
 		
+		try {
+			// response 헤더 설정
+			resp.setContentType("application/octet-stream");
+			resp.setHeader("Content-Disposition", "attachment; filename="+URLEncoder.encode(fileDTO.getoName(), "UTF-8"));
+			resp.setHeader("Content-Transfer-Encoding", "binary");
+			resp.setHeader("Pragma", "no-cache");
+			resp.setHeader("Cache-Control", "private");
+			
+			// response 파일 스트림 작업
+			ServletContext ctx = req.getServletContext();
+			String uploadPath = ctx.getRealPath("/uploads");
+			
+			File file = new File(uploadPath + File.separator + fileDTO.getsName());
+			
+			BufferedInputStream bis  = new BufferedInputStream(new FileInputStream(file));
+			BufferedOutputStream bos = new BufferedOutputStream(resp.getOutputStream());
+			
+			while(true){
+				
+				int data = bis.read();
+				if(data == -1){
+					break;
+				}
+				bos.write(data);
+			}
+			
+			bos.close();
+			bis.close();
+			
+		} catch (Exception e) {
+			logger.error("fileDownload : " + e.getMessage());
+		}
 	}
 	
 	public int getLastPageNum(int total) {

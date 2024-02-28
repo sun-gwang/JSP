@@ -2,33 +2,75 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="./_header.jsp" %>
+<script>
+
+	window.onload = function(){
+		
+		// 원글 삭제
+		const btnRemove = document.getElementsByClassName('btnRemove')[0];
+		
+		if(btnRemove != null){
+			btnRemove.onclick = () => {
+				if(confirm('정말 삭제하시겠습니까?')){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		}
+		
+		// 원글 수정
+		const btnModify = document.getElementsByClassName('btnModify')[0];
+		
+		if(btnModify != null){
+			btnModify.onclick = () => {
+				if(confirm('수정하시겠습니까?')){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		}
+		
+		
+		
+	}
+	
+</script>
         <main id="board">
             <section class="view">
-                
                 <table border="0">
                     <caption>글보기</caption>
                     <tr>
                         <th>제목</th>
-                        <td><input type="text" name="title" value="${article.title}" readonly/></td>
+                        <td><input type="text" name="title" value="${articleDTO.title}" readonly/></td>
                     </tr>
-                    <c:if test="${article.file>0 }">
+                    
+                    <c:if test="${articleDTO.file > 0}">
                     <tr>
                         <th>파일</th>
-                        <td><a href="#">${file.oName}</a>&nbsp;<span>${file.download}</span>회 다운로드</td>
+                        <td>
+                        	<c:forEach var="file" items = "${articleDTO.fileDTOs}">
+                       		<a href="/jboard2/fileDownload.do?fno=${file.fno}">${file.oName}</a>&nbsp;<span>${file.download}</span>회 다운로드<br>
+                        	</c:forEach>
+                        </td>
                     </tr>
                     </c:if>
+                    
                     <tr>
                         <th>내용</th>
                         <td>
-                            <textarea name="content" readonly>${article.content }</textarea>
+                            <textarea name="content" readonly>${articleDTO.content}</textarea>
                         </td>
                     </tr>                    
                 </table>
                 
                 <div>
-                    <a href="#" class="btn btnRemove">삭제</a>
-                    <a href="./modify.html" class="btn btnModify">수정</a>
+                <c:if test="${articleDTO.writer eq sessUser.uid}">
+                    <a href="/jboard2/deleteArticle.do?no=${articleDTO.no}&ano=${articleDTO.no}" class="btn btnRemove">삭제</a>
+                    <a href="/jboard2/modify.do?no=${articleDTO.no}" class="btn btnModify">수정</a>
                     <a href="/jboard2/list.do" class="btn btnList">목록</a>
+                </c:if>
                 </div>
 
                 <!-- 댓글목록 -->

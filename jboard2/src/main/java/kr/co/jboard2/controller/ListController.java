@@ -52,7 +52,7 @@ public class ListController extends HttpServlet{
 		int start = service.getStartNum(currentPage);
 		
 		// 글 조회
-		List<ArticleDTO> articles = service.selectArticles();
+		List<ArticleDTO> articles = service.selectArticles(start);
 		req.setAttribute("articles", articles);
 		
 		// view 공유 참조

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import kr.co.jboard2.db.DBHelper;
 import kr.co.jboard2.db.SQL;
 import kr.co.jboard2.dto.ArticleDTO;
+import kr.co.jboard2.dto.FileDTO;
 
 public class ArticleDAO extends DBHelper{
 	
@@ -57,6 +58,7 @@ public class ArticleDAO extends DBHelper{
 	}
 	public ArticleDTO selectArticle (int no) {
 		
+		List<FileDTO> files = new ArrayList<>();
 		ArticleDTO articleDTO = null;
 		
 		try {
@@ -67,20 +69,38 @@ public class ArticleDAO extends DBHelper{
 			logger.info("selectArticle : " + psmt);
 
 			rs = psmt.executeQuery();
-			if(rs.next()) {
-				articleDTO = new ArticleDTO();
-				articleDTO.setNo(rs.getInt(1));
-				articleDTO.setParent(rs.getInt(2));
-				articleDTO.setComent(rs.getInt(3));
-				articleDTO.setCate(rs.getString(4));
-				articleDTO.setTitle(rs.getString(5));
-				articleDTO.setContent(rs.getString(6));
-				articleDTO.setFile(rs.getInt(7));
-				articleDTO.setHit(rs.getInt(8));
-				articleDTO.setWriter(rs.getString(9));
-				articleDTO.setRegip(rs.getString(10));
-				articleDTO.setRdate(rs.getString(11));
+			while(rs.next()) {
+				
+				// 글 하나당 파일이 여러개일 경우 글객체(articleDTO)는 여러게 생성할 필요가 없기 때문에
+				// 1개만 생성되도록 조건 처리
+				if(articleDTO == null) {
+					
+					articleDTO = new ArticleDTO();
+					articleDTO.setNo(rs.getInt(1));
+					articleDTO.setParent(rs.getInt(2));
+					articleDTO.setComent(rs.getInt(3));
+					articleDTO.setCate(rs.getString(4));
+					articleDTO.setTitle(rs.getString(5));
+					articleDTO.setContent(rs.getString(6));
+					articleDTO.setFile(rs.getInt(7));
+					articleDTO.setHit(rs.getInt(8));
+					articleDTO.setWriter(rs.getString(9));
+					articleDTO.setRegip(rs.getString(10));
+					articleDTO.setRdate(rs.getString(11));
+				}
+				
+				FileDTO fileDTO = new FileDTO();
+				fileDTO.setFno(rs.getInt(12));
+				fileDTO.setAno(rs.getInt(13));
+				fileDTO.setoName(rs.getString(14));
+				fileDTO.setsName(rs.getString(15));
+				fileDTO.setDownload(rs.getInt(16));
+				fileDTO.setRdate(rs.getString(17));
+				files.add(fileDTO);
 			}
+			
+			articleDTO.setFileDTOs(files);
+			
 			closeALL();
 		} catch (Exception e) {
 			logger.error("selectArticle() : " + e.getMessage());
@@ -90,7 +110,7 @@ public class ArticleDAO extends DBHelper{
 		}
 	
 	
-	public List<ArticleDTO> selectArticles() {
+	public List<ArticleDTO> selectArticles(int start) {
 		
 		List<ArticleDTO> articles = new ArrayList<>();
 		
@@ -99,9 +119,12 @@ public class ArticleDAO extends DBHelper{
 		try {
 			
 			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(SQL.SELECT_ARTICLES);
+			psmt = conn.prepareStatement(SQL.SELECT_ARTICLES + SQL.SELECT_ARTICLES_ORDER_LIMIT);
+			psmt.setInt(1, start);
+			
 			logger.info("selectArticles : " + psmt);
+			
+			rs = psmt.executeQuery();
 			
 			while(rs.next()) {
 				articleDTO = new ArticleDTO();
@@ -148,6 +171,69 @@ public class ArticleDAO extends DBHelper{
 		return total;
 	}
 	
-	public void updateArticles(ArticleDTO articleDTO) {}
-	public void deleteArticles(int no) {}
+	public void updateArticle(ArticleDTO articleDTO) {
+		
+		try {
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE);
+			psmt.setString(1, articleDTO.getTitle());
+			psmt.setString(2, articleDTO.getContent());
+			psmt.setInt(3, articleDTO.getNo());
+			logger.info("ArticleDTO() : " + psmt);
+			
+			psmt.executeUpdate();
+			
+			closeALL();
+		} catch (Exception e) {
+			logger.error("updateArticle " + e.getMessage());
+		}
+	}
+	
+	public void updateArticleForFileCount(int no) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.UPDATE_ARTICLE_FOR_FILE_COUNT);
+			psmt.setInt(1, no);
+			logger.info("updateArticleForFileCount : " + psmt);
+			
+			psmt.executeUpdate();
+			closeALL();
+			
+		} catch (Exception e) {
+			logger.error("updateArticleForFileCount : " + e.getMessage());
+		}
+	}
+	
+	public void updateHitCount(int no) {
+		try {
+				conn = getConnection();
+				psmt = conn.prepareStatement(SQL.UPDATE_HIT_COUNT);
+				psmt.setInt(1, no);
+				logger.info("updateHitCount" + psmt);
+				psmt.executeUpdate();
+				
+				closeALL();
+			
+		} catch (Exception e) {
+			logger.error("updateHitCount()" + e.getMessage());
+		}
+	}
+	public void deleteArticle(int no) {
+		try {
+			
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.DELETE_ARTICLE);
+			psmt.setInt(1, no);
+			psmt.setInt(2, no);
+			logger.info("deleteArticle() : " + psmt);
+			
+			psmt.executeUpdate();
+			
+			closeALL();
+			
+		} catch (Exception e) {
+			logger.error("deleteArticle" + e.getMessage());
+		}
+	}
 }

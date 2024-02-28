@@ -1,8 +1,8 @@
-package kr.co.jboard2.controller;
+package kr.co.jboard2.controller.user;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,17 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import kr.co.jboard2.dto.ArticleDTO;
-import kr.co.jboard2.dto.FileDTO;
+import com.google.gson.JsonObject;
+
 import kr.co.jboard2.service.ArticleService;
 import kr.co.jboard2.service.FileService;
 
-@WebServlet("/view.do")
-public class ViewController extends HttpServlet{
+
+@WebServlet("/fileDelete.do")
+public class FileDeleteController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	private ArticleService service = ArticleService.getInstance();
+	private FileService fileService = FileService.getInstance();
+	private ArticleService articleService = ArticleService.getInstance();
 	
 	@Override
 	public void init() throws ServletException {
@@ -32,34 +34,28 @@ public class ViewController extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
-		int no = Integer.parseInt(req.getParameter("no"));
 		
-		// 글조회
-		ArticleDTO articleDTO = service.selectArticle(no);
+		// 파일번호 수신
+		String fno = req.getParameter("fno");
 		
-		// 조회수 +1
-		service.updateHitCount(no);
+		// 파일 삭제 후 해당 파일 글번호 반환
+		int ano = fileService.deleteFile(fno);
 		
-		// view 참조 공유
-		req.setAttribute("articleDTO", articleDTO);
+		// 해당 글의 file컬럼 값을 -1 카운팅
+		articleService.updateArticleForFileCount(ano);
 		
+		// ajax로 요청했기 때문에 결과 JSON 출력(결과값은 파일의 글번호)
+		JsonObject json = new JsonObject();
+		json.addProperty("result", ano);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/view.jsp");
-		dispatcher.forward(req, resp);
+		// JSON 출력
+		PrintWriter writer = resp.getWriter();
+		writer.print(json);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
-	}
-	
 
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		super.destroy();
 	}
 	
 }

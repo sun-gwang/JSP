@@ -28,7 +28,10 @@ public class FileService {
 	public void updateFile(FileDTO fileDTO) {
 		dao.updateFile(fileDTO);
 	} 
-	public void deleteFile(int fno) {
-		dao.deleteFile(fno);
+	public void deleteArticleFile(int ano) {
+		dao.deleteArticleFile(ano);
 	} 
+	public int deleteFile(String fno) {
+		return dao.deleteFile(fno);
+	}
 }
