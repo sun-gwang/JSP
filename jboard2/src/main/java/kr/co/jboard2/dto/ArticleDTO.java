@@ -43,18 +43,27 @@ public class ArticleDTO {
 	public void setNo(int no) {
 		this.no = no;
 	}
+	public void setNo(String no) {
+		this.no = Integer.parseInt(no);
+	}
 	public int getParent() {
 		return parent;
 	}
 	public void setParent(int parent) {
 		this.parent = parent;
 	}
+	public void setParent(String parent) {
+		this.parent = Integer.parseInt(parent);
+	}
+
 	public int getComent() {
 		return coment;
 	}
+
 	public void setComent(int coment) {
 		this.coment = coment;
 	}
+
 	public String getCate() {
 		return cate;
 	}

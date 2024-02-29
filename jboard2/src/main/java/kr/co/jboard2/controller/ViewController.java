@@ -1,6 +1,7 @@
 package kr.co.jboard2.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,9 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import kr.co.jboard2.dto.ArticleDTO;
-import kr.co.jboard2.dto.FileDTO;
 import kr.co.jboard2.service.ArticleService;
-import kr.co.jboard2.service.FileService;
 
 @WebServlet("/view.do")
 public class ViewController extends HttpServlet{
@@ -41,9 +40,12 @@ public class ViewController extends HttpServlet{
 		// 조회수 +1
 		service.updateHitCount(no);
 		
+		// 댓글 조회
+		List<ArticleDTO> comments = service.selectComments(no);
+		
 		// view 참조 공유
 		req.setAttribute("articleDTO", articleDTO);
-		
+		req.setAttribute("comments", comments);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/view.jsp");
 		dispatcher.forward(req, resp);

@@ -39,6 +39,9 @@ public class ArticleService {
 	public int insertArticle(ArticleDTO articleDTO) {
 		return dao.insertArticle(articleDTO);
 	}
+	public int insertComment(ArticleDTO articleDTO) {
+		return dao.insertComment(articleDTO);
+	}
 	public ArticleDTO selectArticle (int no) {
 		return dao.selectArticle(no);
 		}
@@ -46,7 +49,9 @@ public class ArticleService {
 	public List<ArticleDTO> selectArticles(int start) {
 		return dao.selectArticles(start);
 	}
-	
+	public List<ArticleDTO> selectComments(int parent) {
+		return dao.selectComments(parent);
+	}
 	public int selectCountTotal() {
 		return dao.selectCountTotal();
 	}
@@ -64,6 +69,9 @@ public class ArticleService {
 		dao.deleteArticle(no);
 	}
 	
+	public int deleteComment(String no) {
+		return dao.deleteComment(no);
+	}
 	public ArticleDTO fileUpload(HttpServletRequest req) {
 		
 		// 파일 업로드 경로 설정
@@ -128,6 +136,8 @@ public class ArticleService {
 						
 					}else if(fieldName.equals("writer")) {
 						articleDTO.setWriter(fieldValue);
+					}else if(fieldName.equals("no")) {
+						articleDTO.setNo(fieldValue);
 					}
 				}
 			}

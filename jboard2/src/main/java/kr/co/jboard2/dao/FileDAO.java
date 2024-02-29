@@ -71,6 +71,7 @@ public class FileDAO extends DBHelper{
 		return fileDTO;
 	}
 	
+	
 	public List<FileDTO> selectFiles(){
 		return null;
 	}
@@ -94,16 +95,17 @@ public class FileDAO extends DBHelper{
 		}
 	}
 	
-	public int deleteFile(String fno) {
+	public FileDTO deleteFile(String fno) {
 		
 		int ano = 0;
+		String sname = null;
 		
 		try {
 			
 			conn = getConnection();
 			conn.setAutoCommit(false);
 			
-			psmtEtc1 = conn.prepareStatement(SQL.SELECT_FILE_FOR_ANO);
+			psmtEtc1 = conn.prepareStatement(SQL.SELECT_FILE_FOR_DELETE);
 			psmtEtc1.setString(1, fno);
 			logger.info("deleteFile : " + psmtEtc1);
 			
@@ -117,6 +119,7 @@ public class FileDAO extends DBHelper{
 			
 			if(rs.next()) {
 				ano = rs.getInt(1);
+				sname = rs.getString(2);
 			}
 			
 			closeALL();
@@ -125,6 +128,7 @@ public class FileDAO extends DBHelper{
 			logger.error("deleteFile : "+ e.getMessage());
 		}
 		
-		return ano;
+		return new FileDTO(ano, sname);
 	}
+	
 }

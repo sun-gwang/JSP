@@ -7,6 +7,19 @@ public class FileDTO {
 	private String sName;
 	private int download;
 	private String rdate;
+	
+	
+	// 기본 default 생성자
+	public FileDTO() {
+
+	}
+	
+	// filedelete return값 생성자
+	public FileDTO(int ano, String sName) {
+		this.ano = ano;
+		this.sName = sName;
+	}
+	
 	public int getFno() {
 		return fno;
 	}
