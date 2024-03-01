@@ -59,42 +59,46 @@ public class ArticleDAO extends DBHelper{
 	public int insertComment(ArticleDTO articleDTO) {
 		
 		int pk = 0;
-		
 		try {
-			conn = getConnection();
-			psmt = conn.prepareStatement(SQL.INSERT_COMMENT , Statement.RETURN_GENERATED_KEYS);
-			psmt.setInt(1,articleDTO.getParent());
-			psmt.setString(2,articleDTO.getContent());
-			psmt.setString(3,articleDTO.getWriter());
-			psmt.setString(4,articleDTO.getRegip());
-			logger.info("insertComment()" + psmt);
-			
-			// INSERT 해서 부여된 AUTO_INCREMENT PK 값 가져오기
-			rs = psmt.getGeneratedKeys();
-			
-			if(rs.next()) {
-				pk = rs.getInt(1);
-			}
-			closeALL();
+				conn = getConnection();
+				psmt = conn.prepareStatement(SQL.INSERT_COMMENT, Statement.RETURN_GENERATED_KEYS);
+				psmt.setInt(1, articleDTO.getParent());
+				psmt.setString(2, articleDTO.getContent());
+				psmt.setString(3, articleDTO.getWriter());
+				psmt.setString(4, articleDTO.getRegip());
+				
+				logger.info("insertComment : " + psmt);
+				
+				psmt.executeUpdate();
+				
+				// insert 해서 부여된 AUTO_INCREMENT pk 값 가져오기
+				rs = psmt.getGeneratedKeys();
+				
+				if(rs.next()) {
+					pk = rs.getInt(1);
+				}
+				
+				closeALL();
 		} catch (Exception e) {
-			logger.error("insertComment " + e.getMessage());
+			logger.error("insertComment : " + e.getMessage() );
 		}
 		
 		return pk;
+		
 	}
 	public ArticleDTO selectArticle (int no) {
 		
-		List<FileDTO> files = new ArrayList<>();
 		ArticleDTO articleDTO = null;
+		List<FileDTO> files = new ArrayList<>();
 		
 		try {
 			conn = getConnection();
 			psmt = conn.prepareStatement(SQL.SELECT_ARTICLE);
 			psmt.setInt(1, no);
-			
 			logger.info("selectArticle : " + psmt);
 
 			rs = psmt.executeQuery();
+			
 			while(rs.next()) {
 				
 				// 글 하나당 파일이 여러개일 경우 글객체(articleDTO)는 여러게 생성할 필요가 없기 때문에
@@ -128,11 +132,12 @@ public class ArticleDAO extends DBHelper{
 			articleDTO.setFileDTOs(files);
 			
 			closeALL();
+			
 		} catch (Exception e) {
 			logger.error("selectArticle() : " + e.getMessage());
 		}
 		
-		return articleDTO;
+			return articleDTO;
 		}
 	
 	

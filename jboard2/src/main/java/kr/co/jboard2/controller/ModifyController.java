@@ -43,6 +43,7 @@ public class ModifyController extends HttpServlet{
 		
 		// 수정할 글
 		ArticleDTO articleDTO = articleservice.selectArticle(ano);
+		
 		req.setAttribute("articleDTO", articleDTO);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/modify.jsp");
@@ -56,7 +57,7 @@ public class ModifyController extends HttpServlet{
 		ArticleDTO articleDTO = new ArticleDTO(); 
 		articleDTO = articleservice.fileUpload(req);
 		
-		logger.debug(""+articleDTO);
+		logger.debug("articleDTO"+articleDTO);
 		
 		// 원글 수정
 		articleservice.updateArticle(articleDTO);

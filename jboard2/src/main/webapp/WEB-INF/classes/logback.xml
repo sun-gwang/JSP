@@ -35,7 +35,7 @@
   	운영 레벨 : warn or error
   -->
   
-  <root level="warn">
+  <root level="debug">
     <appender-ref ref="STDOUT" />
     <appender-ref ref="ROLLING_FILE" />
   </root>

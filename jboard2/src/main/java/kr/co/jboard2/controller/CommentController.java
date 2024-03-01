@@ -56,8 +56,7 @@ public class CommentController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
-		
-		// AJAX(fetch) POST 데이터 스트림 수신 처리
+		// AJAX(fetch) POST 데이터 스트림 수신처리
 		BufferedReader reader = req.getReader();
 		StringBuilder requestBody = new StringBuilder();
 		String line;
@@ -65,30 +64,29 @@ public class CommentController extends HttpServlet{
 			requestBody.append(line);
 		}
 		reader.close();
-		
 		logger.debug("requestBody : " + requestBody);
-		
+				
 		// JSON 파싱
 		Gson gson = new Gson();
 		ArticleDTO articleDTO = gson.fromJson(requestBody.toString(), ArticleDTO.class);
 		String regip = req.getRemoteAddr();
 		articleDTO.setRegip(regip);
-		
-		logger.debug("articleDTO:" + articleDTO);
-		
+				
+		logger.debug("articleDTO : " + articleDTO);
+				
 		// 댓글 입력
 		int pk = service.insertComment(articleDTO);
 		int parent = articleDTO.getParent();
-		
+				
 		// 결과 JSON 생성
 		JsonObject json = new JsonObject();
-		json.addProperty("no", pk);
+		json.addProperty("pk", pk);
 		json.addProperty("parent", parent);
-		
-		
+				
 		// JSON 출력
 		PrintWriter writer = resp.getWriter();
 		writer.print(json);
+		
 		
 	}
 	
