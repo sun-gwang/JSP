@@ -1,4 +1,4 @@
-package controller.user2;
+package controller.user3;
 
 import java.io.IOException;
 
@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.User2DTO;
-import service.User2Service;
+import dto.User3DTO;
+import service.User3Service;
 
-@WebServlet("/user2/modify.do")
+@WebServlet("/user3/modify.do")
 public class ModifyController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
-	private User2Service service = User2Service.getInstance();
+	private User3Service service = User3Service.getInstance();
 	
 	@Override
 	public void init() throws ServletException {
-
+		// TODO Auto-generated method stub
+		super.init();
 	}
 	
 	@Override
@@ -28,13 +29,13 @@ public class ModifyController extends HttpServlet{
 		
 		String uid = req.getParameter("uid");
 		
-		// 수정 데이터 조회
-		User2DTO user = service.selectUser2(uid);
-		
-		// View에서 데이터 공유를 위해 request Scope에 데이터 설정
+		// 수정데이터 조회
+		User3DTO user = service.selectUser3(uid);
+	
+		//request Scope에 저장
 		req.setAttribute("user", user);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/user2/modify.jsp");
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/user3/modify.jsp");
 		dispatcher.forward(req, resp);
 		
 	}
@@ -45,22 +46,19 @@ public class ModifyController extends HttpServlet{
 		String uid = req.getParameter("uid");
 		String name = req.getParameter("name");
 		String birth = req.getParameter("birth");
+		String hp = req.getParameter("hp");
 		String addr = req.getParameter("addr");
 		
-		User2DTO user = new User2DTO();
+		User3DTO user = new User3DTO();
 		user.setUid(uid);
 		user.setName(name);
 		user.setBirth(birth);
+		user.setHp(hp);
 		user.setAddr(addr);
 		
-		service.updateUser2(user);
+		service.updateUser3(user);
 		
-		resp.sendRedirect("/ch10/user2/list.do");
-		
+		resp.sendRedirect("/ch10/user3/list.do");
 	}
 	
-	@Override
-	public void destroy() {
-
-	}
 }

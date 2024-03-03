@@ -6,7 +6,7 @@
 		<title>user2::modify</title>
 	</head>
 	<body>
-		<h3>user2::modify</h3>
+		<h3>user2::수정</h3>
 		<a href="/ch10/index.jsp">처음으로</a>
 		<a href="/ch10/user2/list.do">목록보기</a>
 		

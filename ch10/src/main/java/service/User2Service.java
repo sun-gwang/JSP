@@ -13,10 +13,7 @@ public class User2Service {
 	public static User2Service getInstance() {
 		return instance;
 	}
-	
 	private User2Service() {}
-	
-	
 	private User2DAO dao = User2DAO.getInstance();
 	
 	public void insertUser2(User2DTO user) {
