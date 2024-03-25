@@ -126,7 +126,6 @@
 				return;
 			}
 			
-			
 			// 중복 체크
 			fetch('/jboard2/user/checkUser.do?type=nick&value='+value)
 			.then((response) => response.json())

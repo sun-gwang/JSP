@@ -24,6 +24,15 @@
 			
 		}
 		
+		const btnCancel = document.getElementsByClassName('btnCancel')[0];
+		
+		btnCancel.onclick = function(e){
+			e.preventDefault();
+			
+			location.href = '/jboard2/user/login.do';
+			
+		}
+		
 	}
 
 
