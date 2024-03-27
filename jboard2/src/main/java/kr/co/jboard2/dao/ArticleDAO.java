@@ -219,6 +219,7 @@ public class ArticleDAO extends DBHelper{
 		}
 		return comments;
 	}
+	
 	public int selectCountTotal() {
 		int total = 0;
 		

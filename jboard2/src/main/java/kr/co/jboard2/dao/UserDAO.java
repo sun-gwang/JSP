@@ -89,7 +89,7 @@ public class UserDAO extends DBHelper{
 				userDTO.setRdate(rs.getString(13));
 				userDTO.setLeaveDate(rs.getString(14));	
 				}
-			
+			closeALL();
 		} catch (Exception e) {
 			logger.debug("selecetUser : " + e.getMessage());
 		}
