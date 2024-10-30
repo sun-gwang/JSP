@@ -8,22 +8,21 @@
 	<body>
 	
 		<h3>Get 요청결과</h3>
+		
 		<%
-			
-			// 전송 데이터 수신
+			/*전송 데이터 수신 */
 			String params = request.getQueryString();
-		 	String uid  = request.getParameter("uid"); // name 값이 들어온다
-			String name = request.getParameter("name");
-			String age  = request.getParameter("age");
+			String uid = request.getParameter("uid");
+			String name= request.getParameter("name");
+			String age= request.getParameter("age");
+			
 		%>
 		
-		
 		<p>
-			파라미터 : <%= params %><br>
-			아이디: <%=uid %>	<br>
-			이름:  <%=name %><br>
-			나이:  <%=age %><br>
-			
+			파라미터 : <%=params %><br>
+			아이디 : <%=uid%><br>
+			이름 : <%=name%><br>
+			나이 : <%=age%><br>
 		</p>
 		
 		<a href="../1.request.jsp">뒤로가기</a>

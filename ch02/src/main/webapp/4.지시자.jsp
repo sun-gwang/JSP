@@ -16,25 +16,20 @@
 		<h4>page 지시자</h4>
 		
 		<p>
-		    info : <%=getServletInfo() %>
+			info : <%=getServletInfo() %>
 		</p>
-
-		<%
-			Account kb = new Account("국민은행","101-12-1001","김유신", 1000);
-			Account wr = new Account("우리은행","101-11-1002","김춘추", 2000);
-		%>
 		
-		<p> <%=kb %></p>
-		<p> <%=wr %></p>
+		<%
+			Account kb = new Account("국민은행", "101-12-1001", "김유신", 10000);
+			Account wr = new Account("우리은행", "102-22-2001", "김춘추", 20000);
+		%>
+		<p><%=kb %></p>
+		<p><%=wr %></p>
 		
 		<h4>include 지시자</h4>
 		
-		<%@ include file = "./Inc/_header.jsp" %>
+		<%@ include file = "./Inc/_header.jsp" %> </br>
 		<%@ include file = "./Inc/_footer.jsp" %>
-			
-		<h4>taglib 지시자</h4>
-		<p>JST 실습에서 사용</p>
-		
 	</body>
 </html>
 

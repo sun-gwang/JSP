@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<jsp:useBean id="user"class="sub1.UserDTO" >
+<jsp:useBean id="user" class="sub1.UserDTO" >
 
 	<jsp:setProperty property="uid" name="user"/>
 	<jsp:setProperty property="name" name="user"/>
@@ -23,5 +23,6 @@
 			나이  : <%=user.getAge() %><br/>
 			주소  : <%=user.getAddr() %><br/>
 		</p>
+		<a href="../3.useBeanTag.jsp">뒤로가기</a>
 	</body>
 </html>

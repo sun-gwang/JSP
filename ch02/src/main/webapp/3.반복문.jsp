@@ -14,35 +14,35 @@
 		<h4>for</h4>
 		<%
 			for(int i=1; i<=5; i++){
-				out.println("<p>i :" +i+ "</p>");
+				out.println("<p>i : "+i+"</p");
 			}
 		%>
-		<% for(int k=1; k<=5; k++) {%>
-			<p>k : <%=k %></p>
-		<%} %>	
-		
-		<h4>while()</h4>
-		
 		<%
-			int j = 1;
+			for(int k=1; k<=5; k++){
+			
+		%>
+			<p>k:<%=k %></p>
+		<%} %>
+		
+		<h4>while문</h4>
+		<%
+			int j =1;
 			while(j<=5){
-		%>
-			<p>j: <%=j %> </p>
-		<%
-				j++;
-			}
-		%>
+		%>	
+			<p><%=j %></p>
+			
+		<%j++; }%>
 		
 		<h4>구구단</h4>
-		<table = border="1">
-			<%for(int x =1; x<=9; x++) {%>
-			<tr>
-				<%for(int y=2; y<=9; y++) {%>
-				<td><%=y %> x <%=x %> = <%= x*y %></td>
-				<%} %>
-			</tr>
+		<table border="1">
+			<%for(int x=1; x<=9; x++){ %>
+				<tr>
+					<%for(int y=2; y<=9; y++){ %>
+						<td><%=y %> x <%=x %> = <%=x*y %></td>
+							<%} %>
+
+				</tr>
 			<%} %>
 		</table>
-		
 	</body>
 </html>

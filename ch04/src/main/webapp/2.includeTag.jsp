@@ -12,7 +12,7 @@
 	</head>
 	<body>
 		<h3>2.include 액션태그</h3>
-		<jsp:forward page="./proc/target.jsp"></jsp:forward>
+		<%-- <jsp:forward page="./proc/target.jsp"></jsp:forward> --%>
 		
 		
 		<h4>include 지시자</h4>

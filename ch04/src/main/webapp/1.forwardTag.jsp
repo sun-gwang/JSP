@@ -12,10 +12,9 @@
 	</head>
 	<body>
 		<h3>1.forward 액션태그</h3>
-		<%
-			pageContext.forward("./proc/target.jsp");
-		%>
+			<%
+				pageContext.forward("./proc/target.jsp");
+			%>
 		<jsp:forward page="./proc/target.jsp"></jsp:forward>
-		
 	</body>
 </html>
